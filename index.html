@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Message For You 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#fff0f5,#ffd6e8);
+  overflow:hidden;
+}
+
+/* FLOATING HEARTS */
+.hearts{
+  position:fixed;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+.heart{
+  position:absolute;
+  animation:float 6s linear infinite;
+  opacity:0.3;
+}
+@keyframes float{
+  0%{transform:translateY(100vh);}
+  100%{transform:translateY(-10vh);}
+}
+
+/* PAGE */
+#page1,#page2{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:80px;
+}
+#page2{display:none;}
+
+.title{
+  font-family:'Dancing Script',cursive;
+  font-size:3rem;
+  color:#c0306a;
+}
+
+.subtitle{
+  color:#d4608e;
+  margin-bottom:30px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.big-heart{
+  font-size:60px;
+  animation:beat 1.2s infinite;
+}
+@keyframes beat{
+  50%{transform:scale(1.1);}
+}
+
+.question{
+  font-size:1.6rem;
+  color:#b02060;
+  min-height:50px;
+}
+
+.buttons{
+  margin-top:20px;
+  position:relative;
+  height:60px;
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+}
+
+.btn-yes{
+  background:#e8557a;
+  color:white;
+}
+
+.btn-no{
+  position:absolute;
+  left:140px;
+  background:white;
+  border:1px solid pink;
+}
+
+.good{
+  font-size:2rem;
+  color:#c0306a;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<!-- PAGE 1 -->
+<div id="page1">
+  <div class="title">💌 A Message For You</div>
+  <div class="subtitle">Please read this with an open heart…</div>
+
+  <div class="card">
+    <div class="big-heart">💗</div>
+    <div class="question" id="text"></div>
+
+    <div class="buttons" id="btnRow">
+      <button class="btn-yes" onclick="yesClick()">Yes 💖</button>
+      <button class="btn-no" id="noBtn" onmouseover="moveBtn()">No 🙈</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+  <div class="card">
+    <div class="good">Good Choice, Anjali! 🎉</div>
+    <p style="margin-top:10px;">Sorry… galti ho gayi 🙏❤️</p>
+    <button class="btn-yes" onclick="restart()" style="margin-top:20px;">Restart</button>
+  </div>
+</div>
+
+<script>
+
+/* TYPEWRITER */
+let msg="Anjali, have you forgiven me?";
+let i=0;
+function type(){
+  if(i<msg.length){
+    document.getElementById("text").innerHTML+=msg.charAt(i);
+    i++;
+    setTimeout(type,50);
+  }
+}
+type();
+
+/* FLOATING HEARTS */
+let hearts=document.getElementById("hearts");
+for(let i=0;i<20;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"%";
+  h.style.fontSize=(10+Math.random()*20)+"px";
+  h.style.animationDuration=(4+Math.random()*4)+"s";
+  hearts.appendChild(h);
+}
+
+/* NO BUTTON ESCAPE */
+function moveBtn(){
+  let btn=document.getElementById("noBtn");
+  let x=Math.random()*200;
+  let y=Math.random()*40-20;
+  btn.style.left=x+"px";
+  btn.style.top=y+"px";
+}
+
+/* YES CLICK */
+function yesClick(){
+  confetti();
+  setTimeout(()=>{
+    document.getElementById("page1").style.display="none";
+    document.getElementById("page2").style.display="flex";
+  },300);
+}
+
+/* CONFETTI */
+function confetti(){
+  for(let i=0;i<40;i++){
+    let c=document.createElement("div");
+    c.style.position="fixed";
+    c.style.width="8px";
+    c.style.height="8px";
+    c.style.background="pink";
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-10px";
+    c.style.animation="fall 2s linear";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+/* RESTART */
+function restart(){
+  location.reload();
+}
+
+</script>
+
+<style>
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);}
+}
+</style>
+
+</body>
+</html>
