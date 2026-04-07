@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Message For You 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff0f5 0%, #ffe4ef 40%, #ffd6e8 100%);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .hearts-bg {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart-float {
+      position: absolute;
+      animation: floatUp linear infinite;
+      opacity: 0.25;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg);  opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+    }
+
+    #page1, #page2 {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    #page2 { display: none; }
+
+    .title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 7vw, 3.5rem);
+      color: #c0306a;
+      text-align: center;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 2px 12px rgba(192,48,106,0.15);
+    }
+
+    .subtitle {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: #d4608e;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.82);
+      border-radius: 28px;
+      padding: 2.5rem 2.5rem 2rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(192,48,106,0.13);
+      border: 1.5px solid rgba(255,180,210,0.5);
+    }
+
+    .big-heart {
+      font-size: 64px;
+      display: block;
+      margin-bottom: 1rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.12); }
+    }
+
+    .question {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      color: #b02060;
+      margin-bottom: 0.7rem;
+    }
+
+    .sub-question {
+      font-size: 0.92rem;
+      color: #c0608a;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .buttons-row {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      height: 56px;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #e8557a, #c03068);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.85rem 2.4rem;
+      font-size: 1.15rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 18px rgba(192,48,106,0.3);
+      letter-spacing: 0.5px;
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.07);
+      box-shadow: 0 6px 24px rgba(192,48,106,0.4);
+    }
+
+    .btn-yes:active { transform: scale(0.97); }
+
+    .btn-no {
+      background: white;
+      color: #d4608e;
+      border: 1.5px solid #f0b0cc;
+      border-radius: 50px;
+      padding: 0.85rem 2.4rem;
+      font-size: 1.15rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      cursor: pointer;
+      position: absolute;
+      transition: left 0.12s ease, top 0.12s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: #e090b0;
+      margin-top: 1.4rem;
+      font-style: italic;
+    }
+
+    .meme-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.4rem;
+    }
+
+    .meme-img-wrap {
+      width: 220px;
+      height: 220px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid #f0b0cc;
+      box-shadow: 0 4px 24px rgba(192,48,106,0.18);
+      background: #ffe4ef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+    }
+
+    .good-choice {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+      color: #c0306a;
+      text-align: center;
+      animation: popIn 0.5s cubic-bezier(.36,1.7,.6,1) both;
+    }
+
+    @keyframes popIn {
+      0%   { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+
+    .sorry-para {
+      background: rgba(255,255,255,0.9);
+      border-radius: 18px;
+      padding: 1.5rem 1.8rem;
+      max-width: 420px;
+      width: 100%;
+      border-left: 4px solid #e8557a;
+      text-align: left;
+      box-shadow: 0 2px 16px rgba(192,48,106,0.1);
+    }
+
+    .sorry-para p {
+      font-size: 0.97rem;
+      color: #7a2048;
+      line-height: 1.85;
+      font-weight: 400;
+    }
+
+    .sorry-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: #c0306a;
+      font-weight: 700;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      pointer-events: none;
+      animation: confettiFall 2.5s ease-in forwards;
+      z-index: 999;
+    }
+
+    @keyframes confettiFall {
+      0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <!-- PAGE 1 -->
+  <div id="page1">
+    <div class="title">💌 A Message For You</div>
+    <div class="subtitle">Please read this with an open heart…</div>
+
+    <div class="card">
+      <span class="big-heart">💗</span>
+      <div class="question">Anjali, have you forgiven me?</div>
+      <div class="sub-question">I know I hurt you, and I am truly, deeply sorry.</div>
+
+      <div class="buttons-row" id="btnRow">
+        <button class="btn-yes" onclick="onYes()">Yes 💖</button>
+        <button class="btn-no" id="btnNo"
+          onmouseenter="runAway()"
+          ontouchstart="runAway()">No 🙈</button>
+      </div>
+
+      <div class="hint">The "No" button is a little scared today… 🏃‍♀️</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div id="page2">
+    <div class="card" style="max-width:500px;">
+      <div class="meme-section">
+        <div class="good-choice">Good Choice, Anjali! 🎉</div>
+
+        <div class="meme-img-wrap">😂👑</div>
+
+        <div style="font-size:0.82rem;color:#c0608a;font-style:italic;">
+          You chose wisely, queen! 👑
+        </div>
+
+        <div class="sorry-para">
+          <p>
+            <span class="sorry-name">Sorry Anjali — </span>mata galti ho gayi,
+            hume maaf karne ke liye shukriya. 🙏
+            <br><br>
+            Tum duniya ki sabse achhi ho, aur main jaanta/jaanti hoon ki maine
+            jo kiya wo bilkul sahi nahi tha. Dil se maafi maangta/maangti hoon.
+            Tumhara pyaar aur trust mujhe bahut keemat ka hai.
+            <br><br>
+            Aagey se aisi galti <em>kabhi</em> nahi hogi — promise! 💕
+            Ab sab theek ho jayega, pakka!
+          </p>
+        </div>
+
+        <button class="btn-yes" onclick="restart()" style="margin-top:0.5rem;">
+          Start Over 🔄
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Floating hearts background
+    var hearts = ['❤️','💕','💗','💓','🌸','🌷','✨','💖','💝','🦋'];
+    var bg = document.getElementById('heartsBg');
+    for (var i = 0; i < 18; i++) {
+      (function(i) {
+        var h = document.createElement('div');
+        h.className = 'heart-float';
+        h.textContent = hearts[i % hearts.length];
+        h.style.left = (Math.random() * 100) + '%';
+        h.style.animationDuration = (6 + Math.random() * 8) + 's';
+        h.style.animationDelay  = (Math.random() * 8) + 's';
+        h.style.fontSize = (14 + Math.random() * 18) + 'px';
+        bg.appendChild(h);
+      })(i);
+    }
+
+    // No button run-away logic
+    var noBtn  = document.getElementById('btnNo');
+    var btnRow = document.getElementById('btnRow');
+    var noPos  = { x: 140, y: 0 };
+    noBtn.style.left = noPos.x + 'px';
+    noBtn.style.top  = noPos.y + 'px';
+
+    function runAway() {
+      var row  = btnRow.getBoundingClientRect();
+      var maxX = row.width - noBtn.offsetWidth - 4;
+      var newX, newY, tries = 0;
+      do {
+        newX = Math.random() * maxX;
+        newY = (Math.random() - 0.5) * 60;
+        tries++;
+      } while (Math.abs(newX - noPos.x) < 60 && tries < 10);
+      noPos.x = Math.max(0, Math.min(newX, maxX));
+      noPos.y = Math.max(-20, Math.min(newY, 20));
+      noBtn.style.left = noPos.x + 'px';
+      noBtn.style.top  = noPos.y + 'px';
+    }
+
+    function onYes() {
+      launchConfetti();
+      setTimeout(function() {
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'flex';
+      }, 400);
+    }
+
+    function restart() {
+      document.getElementById('page2').style.display = 'none';
+      document.getElementById('page1').style.display = 'flex';
+      noPos = { x: 140, y: 0 };
+      noBtn.style.left = noPos.x + 'px';
+      noBtn.style.top  = noPos.y + 'px';
+    }
+
+    function launchConfetti() {
+      var colors = ['#e8557a','#f9a8c9','#c03068','#ffd6e8','#ff85aa','#ffffff'];
+      for (var i = 0; i < 60; i++) {
+        (function(i) {
+          setTimeout(function() {
+            var c = document.createElement('div');
+            c.className = 'confetti-piece';
+            c.style.left       = (10 + Math.random() * 80) + 'vw';
+            c.style.top        = '-10px';
+            c.style.background = colors[Math.floor(Math.random() * colors.length)];
+            c.style.transform  = 'rotate(' + (Math.random() * 360) + 'deg)';
+            c.style.width      = (8 + Math.random() * 8) + 'px';
+            c.style.height     = (8 + Math.random() * 8) + 'px';
+            c.style.animationDuration = (1.5 + Math.random()) + 's';
+            document.body.appendChild(c);
+            setTimeout(function() { c.remove(); }, 3000);
+          }, i * 30);
+        })(i);
+      }
+    }
+  </script>
+</body>
+</html>
